@@ -1,0 +1,19 @@
+#!/bin/bash
+# Nixie template initializer for empty Python project
+# This scripts runs before the template is applied
+
+projname=${PWD##*/}
+
+cat > pyproject.toml <<EOF
+[project]
+name = "$projname"
+description = ""
+authors = [ { "name" = "$(git config user.name)", "email" = "$(git config user.email)" } ]
+readme = "README.md"
+dependencies = []
+dynamic = [ "version" ]
+
+[build-system]
+requires = [ "setuptools" ]
+build-backend = "setuptools.build_meta"
+EOF

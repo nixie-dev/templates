@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+# Nixie template scanner for Python projects
+# 'tools' will never happen -- this namespace is reserved for add-tool
+
+#TODO: Add 'requirements.txt' alternative? if that's even worth it???
+
+import os, sys
+import toml
+
+projconf: dict
+myver = f"{sys.version_info.major}.{sys.version_info.minor}"
+
+def stripver(txt: str) -> str:
+    idx = -1
+    try:
+        idx = txt.index('<')
+    except:
+        try:
+            idx = txt.index('>')
+        except:
+            try:
+                idx = txt.index('=')
+            except:
+                idx = -1
+    if idx >= 0:
+        return txt[:idx]
+    else:
+        return txt
+
+with open('pyproject.toml', 'r') as f:
+    projconf = dict(toml.load(f))
+
+if sys.argv[1] == 'dependencies':
+    for dep in projconf['project']['dependencies']:
+        print(f'/lib/python{myver}/site-packages/{stripver(dep)}')
+elif sys.argv[1] == 'buildsystem-requires':
+    for dep in projconf['build-system']['requires']:
+        print(f'/lib/python{myver}/site-packages/{stripver(dep)}')
