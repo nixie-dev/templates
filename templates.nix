@@ -2,4 +2,5 @@
 
 {
   python = ./python;
+  rust = ./rust;
 }

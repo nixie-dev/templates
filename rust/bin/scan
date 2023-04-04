@@ -1,0 +1,5 @@
+#!/bin/bash
+# Nixie template initializer for Rust projects
+# This script doesn't actually produce init reports
+
+[[ -f Cargo.nix ]] || nix run github:cargo2nix/cargo2nix/unstable
