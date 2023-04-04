@@ -5,8 +5,17 @@ in
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
-    flake-utils.url = "";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = {};
+  outputs = {self, nixpkgs, flake-utils, ...}:
+  flake-utils.lib.EachDefaultSystem (system:
+  let
+    pkgs = import nixpkgs { inherit system; };
+    cmake = pkgs.cmake;
+
+    nixie-env = pkgs.callPackage ./nixie-env.nix;
+  in {
+    packages = {};
+  });
 }
